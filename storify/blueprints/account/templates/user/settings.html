@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Profile settings {{ super() }}{% endblock %}
+
+{% block content %}
+
+<main role="main" class="container mt-5">
+    <div class="row">
+        {% include "partials/profile_settings_menu.html" %}
+
+        <div class="col-lg-9 mb-5">
+            <h4 class="mb-2 border-bottom pb-3">Basic information</h4>
+            <form method="post" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.first_name.label(class="col-form-label") }}
+                        {% if form.first_name.errors %}
+                        {{ form.first_name(class="form-control is-invalid", placeholder="Enter your first name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.first_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.first_name(class="form-control", placeholder="Enter your first name") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.last_name.label(class="col-form-label") }}
+                        {% if form.last_name.errors %}
+                        {{ form.last_name(class="form-control is-invalid", placeholder="Enter your last name") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.last_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.last_name(class="form-control", placeholder="Enter your last name") }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.about.label(class="col-form-label") }}
+                    {% if form.about.errors %}
+                    {{ form.about(class="form-control is-invalid", placeholder="Tell us about yourself in 140 characters.") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.about.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.about(class="form-control", placeholder="Tell us about yourself in 140 characters.") }}
+                    {% endif %}
+                </div>
+
+                {{ form.submit(class="btn btn-outline-success mr-3")}}
+                <a href="{{ url_for('user.profile', username=current_user.username) }}"
+                    class="text-decoration-none">Cancel</a>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

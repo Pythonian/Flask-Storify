@@ -1,0 +1,57 @@
+{% extends "auth/base_auth.html" %}
+
+{% block title %}Login {{ super() }}{% endblock %}
+
+{% block auth_card %}
+
+<div class="card-header">
+    <h3>Sign in to your Account</h3>
+    <span>Enter now to your account and start sharing stories!</span>
+</div>
+
+<div class="card-body">
+    <form method="post" action="">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.email.label() }}
+            {% if form.email.errors %}
+            {{ form.email(class="form-control is-invalid", placeholder="Enter your email") }}
+            <div class="invalid-feedback">
+                {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.email(class="form-control", placeholder="Enter your email") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password.label() }}
+            {% if form.password.errors %}
+            {{ form.password(class="form-control is-invalid", placeholder="Enter your password") }}
+            <div class="invalid-feedback">
+                {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.password(class="form-control", placeholder="Enter your password") }}
+            {% endif %}
+
+            <div class="custom-control custom-checkbox mt-3">
+                {{ form.remember_me(class="custom-control-input") }}
+                {{ form.remember_me.label(class="custom-control-label") }}
+            </div>
+        </div>
+
+        {{ form.submit(class="btn btn-outline-success mr-2")}}
+        <a href="{{ url_for('auth.password_reset_request') }}" class="text-decoration-none">Forgot your password?</a>
+    </form>
+</div>
+
+<div class="card-footer text-muted text-center">
+    You don't have an account? <a href="{{ url_for('auth.signup') }}" class="text-decoration-none">Sign up</a>
+</div>
+
+{% endblock %}

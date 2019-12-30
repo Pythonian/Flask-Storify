@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-sm-9 order-last order-sm-first">
+        <h3 class="mb-1">
+            {{ user.get_screen_name }}
+            {% if user != current_user %}
+            {% if not current_user.is_following(user) %}
+            <a href="{{ url_for('user.follow', username=user.username) }}"
+                class="mx-2 btn btn-outline-success btn-sm">Follow</a>
+            {% else %}
+            <a href="{{ url_for('user.unfollow', username=user.username) }}"
+                class="mx-2 btn btn-outline-danger btn-sm">Unfollow</a>
+            {% endif %}
+            {% endif %}
+
+            {% if current_user.is_authenticated and user != current_user and user.is_following(current_user) %}
+            | <span class="label label-default">Follows you</span>
+
+            <small>
+                <div class="dropdown d-inline">
+                    <a title="More actions" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        <small><i class="fas fa-angle-down"></i></small>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Report user</a>
+                        <a class="dropdown-item" href="#">Block user</a>
+                    </div>
+                </div>
+            </small>
+            {% endif %}
+            {% if current_user.is_authenticated and not user != current_user %}
+            <a href="{{ url_for('user.settings') }}" class="mx-2 btn btn-outline-secondary btn-sm">Edit Profile</a>
+            {% endif %}
+        </h3>
+        {% if user.about %}
+        <p class="mb-1">{{ user.about }}</p>
+        {% endif %}
+        <small>Supports Enyimba FC &bull; Writes about <a href="topic.html"
+                class="text-decoration-none">Trafficking</a>, <a href="topic.html"
+                class="text-decoration-none">Officiating</a> and <a href="topic.html"
+                class="text-decoration-none">V.A.R</a></small>
+        <p class="pt-2">
+            <span class="mr-2">
+                <a href="{{ url_for('user.followers', username=user.username) }}" class="text-decoration-none">
+                    <span class="font-weight-bold">{{ user.followers.count() }}</span> Followers
+                </a>
+            </span>
+            <span class="mr-2">
+                <a href="{{ url_for('user.following', username=user.username) }}" class="text-decoration-none">
+                    <span class="font-weight-bold">{{ user.followed.count() }}</span> Following
+                </a>
+            </span> &bull;
+            <a href="#" class="ml-2" title="Like on facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="ml-2" title="Follow on twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="ml-2" title="Visit website"><i class="fas fa-link"></i></a>
+        </p>
+        <p class="small"><a href="#">Followed by Jennifer Akpala, StarBase FC, Ogudu, Lagos., and 125
+                others you follow</a></p>
+    </div>
+    <div class="col-sm-3 order-first order-sm-last mb-3">
+        <img class="img-fluid rounded-circle" src="images/150x150.png">
+    </div>
+</div>

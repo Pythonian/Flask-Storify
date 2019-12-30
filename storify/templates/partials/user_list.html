@@ -1,0 +1,17 @@
+<div class="media mb-4 pb-3 border-bottom">
+    <img class="mr-3 rounded-circle" src="images/50x50.png">
+    <div class="media-body">
+        <h6><a href="profile.html" class="text-decoration-none">{{ user.get_screen_name }}</a></h6>
+        {% if user.about %}<p class="m-0">{{ user.about }}</p>{% endif %}
+    </div>
+    <div class="float-right">
+        <a href="#" class="btn btn-success btn-sm">Following</a>
+        {% if user != current_user %}
+        {% if not current_user.is_following(user) %}
+        <a href="{{ url_for('user.follow', username=user.username) }}" class="btn btn-success btn-sm">Following</a>
+        {% else %}
+        <a href="{{ url_for('user.unfollow', username=user.username) }}" class="btn btn-danger btn-sm">Unfollow</a>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
