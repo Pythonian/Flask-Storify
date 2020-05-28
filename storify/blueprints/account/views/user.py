@@ -1,9 +1,10 @@
 from storify.blueprints.account.forms.user import (
     PasswordChangeForm, ChangeEmailForm, EditProfileForm)
 from storify.blueprints.account.models import User
-from flask_login import current_user, login_required
+from flask_login import current_user, login_required, logout_user
 from storify.extensions import db
 from storify.utils.email import send_email
+from storify.blueprints.story.models import Story
 from flask import Blueprint, flash, redirect, render_template, url_for, abort
 
 user = Blueprint('user', __name__,
@@ -13,9 +14,35 @@ user = Blueprint('user', __name__,
 @user.route('/<username>/', methods=['GET'])
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
+    # Latest stories; Recommends; Featured; Drafts; Bookmarks; Comments
+    stories = user.stories.order_by(Story.published.desc())
     if user.confirmed is False:
         abort(404)
-    return render_template('user/profile.html', user=user)
+    return render_template('user/profile.html', user=user, stories=stories)
+
+
+@user.route('/<username>/recommends/', methods=['GET'])
+def recommends(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user/recommends.html', user=user)
+
+
+@user.route('/stories/', methods=['GET'])
+def stories():
+    stories = current_user.stories.order_by(Story.published.desc())
+    return render_template('user/stories.html', stories=stories)
+
+
+@user.route('/drafts/', methods=['GET'])
+def drafts():
+
+    return render_template('user/drafts.html')
+
+
+@user.route('/bookmarks/', methods=['GET'])
+def bookmarks():
+
+    return render_template('user/bookmarks.html')
 
 
 @user.route('/settings/', methods=['GET', 'POST'])
@@ -99,6 +126,7 @@ def follow(username):
         flash(f'You are already following {username}.', 'info')
         return redirect(url_for('user.profile', username=username))
     current_user.follow(user)
+    # from_user.profile.notify_followed(follow)
     db.session.commit()
     flash(f'You are now following {username}.', 'success')
     return redirect(url_for('user.profile', username=username))
@@ -136,3 +164,41 @@ def following(username):
                for item in user.followed.all()]
     return render_template('user/follows.html', user=user,
                            title="People following ", follows=follows)
+
+
+@login_required
+@user.route('/<username>/disable/')
+def disable_acccount(username):
+    user = current_user.username
+    if request.method == 'POST':
+        user.is_active = False
+        db.session.commit()
+        return logout_user()
+    return render_template('user/disable.html', user=user)
+
+
+@user.route('/<username>/responses/')
+def responses(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    comments = user.user_comments.all()
+    return render_template('user/responses.html', comments=comments)
+
+
+# @login_required
+# def notifications(request, username):
+#     user = get_object_or_404(User,
+#         username=username)
+#     notifications = Notification.objects.filter(to_user=request.user)
+
+    # unread = Notification.objects.filter(to_user=request.user, is_read=False)
+    # for notification in unread:
+    #   notification.is_read = True
+    #   notification.save()
+
+    # template = 'accounts/notifications.html'
+    # context = {
+    #     'user': user,
+    #     'notifications': notifications
+    # }
+
+    # return render(request, template, context)

@@ -5,56 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock %} &#8212; FootyStory</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 
 </head>
 
 <body>
 
     <div class="container">
-        <header class="border-bottom py-3">
-            <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-3">
-                    <h3 class="m-0 p-0">
-                        <a class="text-dark font-weight-bold text-decoration-none" href="/">FootyStory</a>
-                    </h3>
-                </div>
-                <div class="col-9 d-flex justify-content-end align-items-center">
-                    <a href=""><i class="fas fa-search mr-3" title="Search FootyStory"></i></a>
-                    <a class="btn btn-sm btn-outline-success mr-3" href="{{ url_for('story.create') }}">Write a
-                        story</a>
-                    {% if current_user.is_authenticated %}
-                    <a href=""><i class="far fa-bell" title="Notifications"></i></a>
-                    <div class="dropdown">
-                        <a class="d-block pl-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-                            aria-expanded="false" title="{{ current_user.username }}">
-                            <img class="rounded-circle" src="images/32x32.png" alt="{{ current_user.username }}">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="">Stories</a>
-                            <a class="dropdown-item" href="">Bookmarks</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item"
-                                href="{{ url_for('user.profile', username=current_user.username) }}">Profile</a>
-                            <a class="dropdown-item" href="{{ url_for('user.settings') }}">Settings</a>
-                            <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Sign out</a>
-                        </div>
-                    </div>
-                    {% else %}
-                    <a class="btn btn-sm btn-outline-success mr-3" href="{{ url_for('auth.signup') }}">Register</a>
-                    <a class="btn btn-sm btn-outline-success" href="{{ url_for('auth.login') }}">Login</a>
-                    {% endif %}
-                </div>
-            </div>
-        </header>
+        {% include "partials/nav_header.html" %}
+        {% block nav_scroller %}{% endblock %}
+    </div>
 
-        {% include "partials/nav_scroller.html" %}
-
+    <main class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mt-2">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                 {% for category, message in messages %}
@@ -71,13 +38,15 @@
         </div>
 
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/7f7342a278.js" crossorigin="anonymous"></script>
     {{ moment.include_moment() }}
-    {% block script %}{% endblock %}
+
 </body>
 
 </html>

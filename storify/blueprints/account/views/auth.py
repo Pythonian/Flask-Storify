@@ -46,7 +46,6 @@ def login():
             flash('Invalid email or password.', 'danger')
             return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
-        flash('You are now logged in. Welcome back!', 'success')
         next = request.args.get('next')
         if not next or url_parse(next).netloc != '':
             next = url_for('home')
@@ -72,7 +71,8 @@ def signup():
     if form.validate_on_submit():
         user = User(username=form.username.data,
                     email=form.email.data.lower(),
-                    password=form.password.data)
+                    password=form.password.data,
+                    favorite_club=form.favorite_club.data)
         db.session.add(user)
         db.session.commit()
 
@@ -140,7 +140,8 @@ def password_reset_request():
                        'auth/email/reset_password',
                        user=user, token=token)
         flash(
-            f'Instructions to reset your password has been sent to {form.email.data}.', 'info')
+            f'Instructions to reset your password '
+            'has been sent to {form.email.data}.', 'info')
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password.html', form=form)
 
@@ -158,6 +159,7 @@ def password_reset(token):
                   'success')
             return redirect(url_for('auth.login'))
         else:
-            flash('The password reset link is an invalid or expired token', 'danger')
+            flash('The password reset link is an '
+                  'invalid or expired token', 'danger')
             return redirect(url_for('home'))
     return render_template('auth/password_reset_confirm.html', form=form)

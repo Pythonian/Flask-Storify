@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ story.title }} {{ super() }}{% endblock %}
+
+{% block content %}
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <span><a href="" class="text-decoration-none">{{ story.topic }}</a></span>
+            <h3 class="mb-3">{{ story.title }}</h3>
+            <div class="d-flex">
+                <img class="rounded-circle mr-2" src="https://placehold.it/50x50">
+                <div>
+                    <a href="{{ url_for('user.profile', username=story.author.username) }}" class="d-block font-weight-bold text-decoration-none">{{ story.author.get_screen_name }}</a>
+                    <small class="text-muted">{{ moment(story.published).format('LL') }} &bull; {{ story.read_time }} min read</small>
+                </div>
+            </div>
+            <img class="my-3 img-fluid" src="https://placehold.it/750x300">
+            <p class="text-center"><small>{{ story.image_caption }}</small></p>
+            <div class="mb-5">
+               {{ story.body }}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

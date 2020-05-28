@@ -3,6 +3,7 @@ from wtforms import PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import (DataRequired, Email, EqualTo, Length,
                                 ValidationError)
+# from flask_wtf.file import FileAllowed, FileField
 
 from storify.blueprints.account.models import User
 
@@ -11,6 +12,8 @@ class EditProfileForm(FlaskForm):
     first_name = StringField('First name', validators=[Length(min=0, max=60)])
     last_name = StringField('Last name', validators=[Length(min=0, max=60)])
     about = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    # picture = FileField('Update Profile Picture', validators=[
+    #                     FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Save Changes')
 
 

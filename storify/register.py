@@ -1,8 +1,10 @@
 from storify.blueprints.account import auth, user
 from storify.blueprints.story import story
+from storify.blueprints.menu import menu
+from storify.blueprints.topic import topic
 from .extensions import (csrf, db, login_manager, mail, migrate, moment)
 
-FLASK_BLUEPRINTS = [auth, user, story]
+FLASK_BLUEPRINTS = [auth, user, story, menu, topic]
 
 
 def authentication(app, user_model):

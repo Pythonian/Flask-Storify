@@ -20,19 +20,18 @@
                         <a href="responses.html" class="text-decoration-none" title="Responses">Responses</a>
                     </li>
                 </ul>
-
+                
+                {% if featured %}
                 <h6 class="py-3">Featured</h6>
                 {% include "partials/post_list_right_image.html" %}
+                {% endif %}
 
                 <h6 class="py-3">Latest</h6>
                 {% include "partials/post_list_right_image.html" %}
+                
             </div>
         </div>
     </div>
 </main>
 
-{% endblock %}
-
-{% block script %}
-<script src="{{ url_for('static', filename='scripts/follows.js') }}"></script>
 {% endblock %}

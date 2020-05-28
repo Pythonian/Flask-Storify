@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}My Drafts {{ super() }}{% endblock %}
+
+{% block content %}	
+<div class="row mt-5">
+	<div class="col-md-12 mb-4">
+		<h3>My Drafts</h3>
+	</div>
+
+	<div class="col-md-12">
+		<ul class="list-unstyled list-inline border-bottom pb-2">
+			<li class="list-inline-item mr-3">
+				<span class="font-weight-bold">Drafts 2</a>
+			</li>
+			<li class="list-inline-item">
+				<a href="{{ url_for('user.stories') }}" class="text-decoration-none">Published 2</a>
+			</li>
+		</ul>
+				
+		{% if drafts %}
+			{% for draft in drafts %}
+			<div class="flex-md-row mb-4 border-bottom pb-3">
+				<div class="d-flex flex-column align-items-start">
+					<h5 class="mb-3">Never feel overwhelmed at work again: how to use the M.I.T. technique</h5>              
+					<small class="text-muted mb-2">Last edited 7 days ago &bull; 4 min read (6 words) so far</small>
+					<small>
+						<a href="#" class="text-decoration-none mr-1">Edit</a> &bull; 
+						<a href="#" class="text-decoration-none ml-1">Delete</a>
+					</small>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<p>You currently don't have any unpublished story.</p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

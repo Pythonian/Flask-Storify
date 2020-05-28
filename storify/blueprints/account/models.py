@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import BadSignature, SignatureExpired
@@ -31,8 +32,12 @@ class User(UserMixin, db.Model):
     about = db.Column(db.String(140))
     first_name = db.Column(db.String(60))
     last_name = db.Column(db.String(60))
+    avatar = db.Column(db.String(200))
+    favorite_club = db.Column(db.String(100))
+    # website; location
 
     confirmed = db.Column(db.Boolean, default=False)
+    verified_account = db.Column(db.Boolean, default=False)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     member_since = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -142,7 +147,8 @@ class User(UserMixin, db.Model):
         :param expiration:
         """
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'change_email': self.id, 'new_email': new_email}).decode('utf-8')
+        return s.dumps({'change_email': self.id,
+                        'new_email': new_email}).decode('utf-8')
 
     def confirm_email_change_token(self, token):
         """
@@ -191,3 +197,45 @@ class User(UserMixin, db.Model):
     def is_followed_by(self, user):
         return self.followers.filter_by(
             follower_id=user.id).first() is not None
+
+    # def notify_commented(self, story):
+    #     if self.user != story.author:
+    #         Notification(notification_type=Notification.COMMENTED,
+    #             from_user=self.user,
+    #             to_user=story.author,
+    #             story=story).save()
+
+    # def notify_also_commented(self, story):
+    #     comments = story.get_comments()
+    #     users = []
+    #     for comment in comments:
+    #         if comment.name != self.user and comment.name != story.author:
+    #             users.append(comment.name.pk)
+    #     users = list(set(users))
+    #     for user in users:
+    #         Notification(notification_type=Notification.ALSO_COMMENTED,
+    #             from_user=self.user,
+    #             to_user=User(id=user),
+    #             story=story).save()
+
+    # def notify_followed(self, follow):
+    #     if self.user != follow.to_user:
+    #         Notification(notification_type=Notification.FOLLOWED,
+    #             from_user=self.user,
+    #             to_user=follow.to_user,
+    #             follow=follow).save()
+
+    # def notify_favorited(self, story):
+    #     if self.user != story.author:
+    #         Notification(notification_type=Notification.FAVORITED,
+    #             from_user=self.user,
+    #             to_user=story.author,
+    #             story=story).save()
+
+    # def unnotify_favorited(self, story):
+    #     if self.user != story.author:
+    #         Notification.objects.filter(
+    #             notification_type=Notification.FAVORITED,
+    #             from_user=self.user,
+    #             to_user=story.author,
+    #             story=story).delete()

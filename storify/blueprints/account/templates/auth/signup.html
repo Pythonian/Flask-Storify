@@ -41,6 +41,20 @@
         </div>
 
         <div class="form-group">
+            {{ form.favorite_club.label() }}
+            {% if form.favorite_club.errors %}
+            {{ form.favorite_club(class="form-control is-invalid", placeholder="Your football club") }}
+            <div class="invalid-feedback">
+                {% for error in form.favorite_club.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.favorite_club(class="form-control", placeholder="Your football club") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
             {{ form.password.label() }}
             {% if form.password.errors %}
             {{ form.password(class="form-control is-invalid", placeholder="Enter your password") }}

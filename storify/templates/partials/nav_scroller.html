@@ -1,11 +1,11 @@
 <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
-        <a class="py-2 pr-2 text-muted text-decoration-none" href="home.html" title="Home">Home</a>
+        <a class="py-2 pr-2 text-muted text-decoration-none" href="{{ url_for('menu.home') }}" title="Home">Home</a>
         <a class="p-2 text-muted text-decoration-none" href="network.html" title="Network">Network</a>
         <a class="p-2 text-muted text-decoration-none" href="latest.html" title="Latest">Latest</a>
-        <a class="p-2 text-muted text-decoration-none" href="popular.html" title="Popular">Popular</a>
-        <a class="p-2 text-muted text-decoration-none" href="topics.html" title="Topics">Topics</a>
-        <a class="p-2 text-muted text-decoration-none" href="people.html" title="People">People</a>
+        <a class="p-2 text-muted text-decoration-none" href="{{ url_for('menu.popular') }}" title="Popular">Popular</a>
+        <a class="p-2 text-muted text-decoration-none" href="{{ url_for('menu.topics') }}" title="Topics">Topics</a>
+        <a class="p-2 text-muted text-decoration-none" href="{{ url_for('menu.people') }}" title="People">People</a>
         <a class="p-2 text-muted text-decoration-none" href="recommends.html" title="Recommends">Recommends</a>
         <a class="p-2 text-muted text-decoration-none" href="collections.html" title="Collections">Collections</a>
         <a class="p-2 text-muted text-decoration-none" href="documentaries.html" title="Documentaries">Documentaries</a>
