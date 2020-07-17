@@ -33,8 +33,6 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(60))
     last_name = db.Column(db.String(60))
     avatar = db.Column(db.String(200))
-    favorite_club = db.Column(db.String(100))
-    # website; location
 
     confirmed = db.Column(db.Boolean, default=False)
     verified_account = db.Column(db.Boolean, default=False)
@@ -51,6 +49,8 @@ class User(UserMixin, db.Model):
                                 backref=db.backref('followed', lazy='joined'),
                                 lazy='dynamic',
                                 cascade='all, delete-orphan')
+
+    stories = db.relationship('Story', backref='author', lazy='dynamic')
 
     def __repr__(self):
         """ Return string representation of User instance. """

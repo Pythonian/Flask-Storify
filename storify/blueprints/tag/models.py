@@ -12,8 +12,12 @@ class Tag(db.Model):
     slug = db.Column(db.String(20))
     created = db.Column(db.DateTime, default=datetime.utcnow)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.slug = slugify(self.title)
+
     def __repr__(self):
-        return self.title
+        return f'Tag: {self.title}'
 
     @staticmethod
     def get_popular_tags():

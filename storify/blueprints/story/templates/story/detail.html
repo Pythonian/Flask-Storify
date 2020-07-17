@@ -20,6 +20,9 @@
             <div class="mb-5">
                {{ story.body }}
             </div>
+            {% for tag in story.tags %}
+<a href="{{ url_for('tag', slug=tag.slug) }}">{{ tag.name }}</a>
+{% endfor %}
         </div>
     </div>
 </main>

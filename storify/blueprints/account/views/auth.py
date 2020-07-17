@@ -25,6 +25,13 @@ def before_request():
                 and request.endpoint != 'static':
             return redirect(url_for('auth.unconfirmed'))
 
+# Track the last page a user visited
+# @app.before_request
+# def _last_page_visited():
+#      if "current_page" in session:
+#      session["last_page"] = session["current_page"]
+#      session["current_page"] = request.path
+
 
 @auth.route('/unconfirmed/')
 def unconfirmed():
@@ -59,7 +66,7 @@ def logout():
     """Handle requests to the /logout/ route and logs a user out."""
     logout_user()
     flash('You have been logged out.', 'info')
-    return redirect(url_for('home'))
+    return redirect(request.args.get('next') or url_for('home'))
 
 
 @auth.route('/signup/', methods=['GET', 'POST'])
