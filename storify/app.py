@@ -1,7 +1,6 @@
 from flask import Flask
 
 from storify.blueprints.account.models import User
-from storify.blueprints.story.models import Story
 
 from .register import authentication, blueprints, extensions
 
